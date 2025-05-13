@@ -1,9 +1,12 @@
 version: 0.0
-Resources:
-  - TargetService:
-      Type: AWS::ECS::Service
-      Properties:
-        TaskDefinition: "node-redis-task"
-        LoadBalancerInfo:
-          ContainerName: "app"
-          ContainerPort: 8081
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/nodeapp
+    overwrite: yes
+
+hooks:
+  AfterInstall:
+    - location: scripts/deploy.sh
+      timeout: 300
+      runas: ec2-user
